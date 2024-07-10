@@ -18,9 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     @NotBlank(message = "Please provide your full name")
     @Column(name = "name")
@@ -39,5 +39,7 @@ public class User {
     @Email(regexp = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}",message = "Invalid Mail Id")
     @NotBlank(message = "Email is mandatory")
     private String email;
+
+
 
 }
