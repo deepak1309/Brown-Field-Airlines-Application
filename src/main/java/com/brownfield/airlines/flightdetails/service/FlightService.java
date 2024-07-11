@@ -23,8 +23,14 @@ public class FlightService {
 
     }
 
-    public Flight saveFlight(Flight flight) {
-        return flightRepository.save(flight);
+    public Flight saveFlight(Flight flight) throws Exception {
+
+        try {
+            return flightRepository.save(flight);
+        }
+        catch(Exception e){
+            throw new Exception("Flight Number Already Exits or Aircraft Still not have been added");
+        }
 
     }
 

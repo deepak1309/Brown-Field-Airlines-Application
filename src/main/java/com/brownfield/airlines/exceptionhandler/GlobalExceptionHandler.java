@@ -14,10 +14,10 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<Object> handleUserNotFoundException(UsernameNotFoundException ex) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleUserNotFoundException(Exception ex) {
 
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
