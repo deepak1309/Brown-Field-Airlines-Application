@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin
 public class LoginController {
 
     private JwtUtil jwtUtil;
@@ -27,7 +28,7 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginRequestDto loginRequestDto) throws IllegalArgumentException {
         try{
         authenticationManager.authenticate(
