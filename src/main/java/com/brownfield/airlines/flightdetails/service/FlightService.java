@@ -1,7 +1,12 @@
 package com.brownfield.airlines.flightdetails.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.brownfield.airlines.Inventory.dao.InventoryDao;
+import com.brownfield.airlines.Inventory.entity.Inventory;
+import com.brownfield.airlines.flightdetails.Dao.AircraftRepository;
+import com.brownfield.airlines.flightdetails.entity.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +15,18 @@ import com.brownfield.airlines.flightdetails.entity.Flight;
 
 @Service
 public class FlightService {
-	@Autowired
+
     private FlightRepository flightRepository;
+    private InventoryDao inventoryDao;
+    private AircraftRepository aircraftRepository;
+
+    @Autowired
+    public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository) {
+        this.flightRepository = flightRepository;
+        this.inventoryDao = inventoryDao;
+        this.aircraftRepository = aircraftRepository;
+    }
+
 
     public List<Flight> getAllFlights() {
         return flightRepository.findAll();
@@ -25,12 +40,18 @@ public class FlightService {
 
     public Flight saveFlight(Flight flight) throws Exception {
 
+        Flight fl;
         try {
-            return flightRepository.save(flight);
+            fl = flightRepository.save(flight);
+            Optional<Aircraft> optional = aircraftRepository.findById(flight.getAircraft().getId());
+            Inventory addedInventory = Inventory.builder().flight(fl).available_seats(Integer.parseInt(optional.get().getCapacity())).reserved_seats(0).build();
+            inventoryDao.save(addedInventory);
+
         }
         catch(Exception e){
             throw new Exception("Flight Number Already Exits or Aircraft Still not have been added");
         }
+        return fl;
 
     }
 
