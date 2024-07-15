@@ -31,6 +31,10 @@ public class Passenger {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
+
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
     private User user;

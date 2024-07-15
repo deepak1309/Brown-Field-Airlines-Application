@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleUserNotFoundException(Exception ex) {
+    public ResponseEntity<Object> handleAircraftNotFoundException(Exception ex) {
 
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }

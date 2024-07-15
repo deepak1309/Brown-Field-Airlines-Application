@@ -30,6 +30,7 @@ public class PassengerServiceImpl implements PassengerService {
                 .name(passengerDetailsRequestDto.getName())
                 .email(passengerDetailsRequestDto.getEmail())
                 .phoneNumber(passengerDetailsRequestDto.getPhoneNumber())
+                .gender(passengerDetailsRequestDto.getGender())
                 .user(user)
                 .build();
 
