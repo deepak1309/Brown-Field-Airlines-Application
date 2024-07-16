@@ -4,17 +4,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.Inventory.entity.Inventory;
+import com.brownfield.airlines.fare.Fare;
+import com.brownfield.airlines.fare.FareClass;
+import com.brownfield.airlines.fare.FareDao;
 import com.brownfield.airlines.flightdetails.Dao.AircraftRepository;
 import com.brownfield.airlines.flightdetails.entity.Aircraft;
 import com.brownfield.airlines.search.response.FlightResponse;
-import com.brownfield.airlines.search.response.TwoWayFlightResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +29,15 @@ public class FlightService {
     private InventoryDao inventoryDao;
     private AircraftRepository aircraftRepository;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private FareDao fareDao;
 
 
     @Autowired
-    public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository) {
+    public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository, FareDao fareDao) {
         this.flightRepository = flightRepository;
         this.inventoryDao = inventoryDao;
         this.aircraftRepository = aircraftRepository;
+        this.fareDao = fareDao;
     }
 
 
@@ -65,15 +68,20 @@ public class FlightService {
 
     }
 
-    public List<FlightResponse> searchOneWayFlights(String source, String destination, LocalDate departure) {
+    public List<FlightResponse> searchOneWayFlights(String source, String destination, LocalDate departure, FareClass fareClass) {
         LocalDateTime startOfDay = departure.atStartOfDay();
         LocalDateTime endOfDay = departure.atTime(LocalTime.MAX);
 
         List<Flight> flights = flightRepository.findBySourceAndDestinationAndDepartureTimeBetween(
                 source, destination, startOfDay, endOfDay);
-        return flights.stream().map(this::convertToFlightDTO).collect(Collectors.toList());
+        List<Fare> fares = fareDao.findByFlightInAndFareClass(flights, fareClass);
+
+        return fares.stream()
+                .map(this::convertToFlightDTO)
+                .collect(Collectors.toList());
     }
-    private FlightResponse convertToFlightDTO(Flight flight) {
+    private FlightResponse convertToFlightDTO(Fare fare) {
+        Flight flight = fare.getFlight();
         Optional<Aircraft> op= aircraftRepository.findById(flight.getAircraft().getId());
         return new FlightResponse(
                 op.get().getName(),
@@ -81,7 +89,8 @@ public class FlightService {
                 flight.getDepartureTime().format(timeFormatter),
                 flight.getArrivalTime().format(timeFormatter),
                 flight.getSource(),
-                flight.getDestination()
+                flight.getDestination(),
+                fare.getPrice()
         );
     }
 

@@ -1,5 +1,6 @@
 package com.brownfield.airlines.search.SearchController;
 
+import com.brownfield.airlines.fare.FareClass;
 import com.brownfield.airlines.flightdetails.service.FlightService;
 import com.brownfield.airlines.search.response.FlightResponse;
 
@@ -31,8 +32,9 @@ public class SearchController {
     public ResponseEntity<List<FlightResponse>> searchOneWayFlights(
             @RequestParam String source,
             @RequestParam String destination,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate) {
-        List<FlightResponse> flights = flightService.searchOneWayFlights(source, destination, departureDate);
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
+            @RequestParam FareClass fareClass) {
+        List<FlightResponse> flights = flightService.searchOneWayFlights(source, destination, departureDate,fareClass);
         return ResponseEntity.ok(flights);
     }
 
@@ -41,10 +43,11 @@ public class SearchController {
             @RequestParam String source,
             @RequestParam String destination,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate returnDate,
+            @RequestParam FareClass fareClass) {
 
-        List<FlightResponse> Departflights = flightService.searchOneWayFlights(source, destination,departureDate);
-        List<FlightResponse> Arrivalflights = flightService.searchOneWayFlights(destination, source,returnDate);
+        List<FlightResponse> Departflights = flightService.searchOneWayFlights(source, destination,departureDate,fareClass);
+        List<FlightResponse> Arrivalflights = flightService.searchOneWayFlights(destination, source,returnDate,fareClass);
         TwoWayFlightResponse response= TwoWayFlightResponse.builder().outboundFlights(Departflights).returnFlights(Arrivalflights).build();
 
         return ResponseEntity.ok(response);

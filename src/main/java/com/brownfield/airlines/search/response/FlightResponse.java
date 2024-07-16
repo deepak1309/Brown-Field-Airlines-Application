@@ -26,5 +26,7 @@ public class FlightResponse {
 
 
     private String destination;
+
+    private Double price;
 }
 
