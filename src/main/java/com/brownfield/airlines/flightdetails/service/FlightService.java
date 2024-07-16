@@ -1,12 +1,20 @@
 package com.brownfield.airlines.flightdetails.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.Inventory.entity.Inventory;
 import com.brownfield.airlines.flightdetails.Dao.AircraftRepository;
 import com.brownfield.airlines.flightdetails.entity.Aircraft;
+import com.brownfield.airlines.search.response.FlightResponse;
+import com.brownfield.airlines.search.response.TwoWayFlightResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +27,8 @@ public class FlightService {
     private FlightRepository flightRepository;
     private InventoryDao inventoryDao;
     private AircraftRepository aircraftRepository;
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
 
     @Autowired
     public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository) {
@@ -54,6 +64,27 @@ public class FlightService {
         return fl;
 
     }
+
+    public List<FlightResponse> searchOneWayFlights(String source, String destination, LocalDate departure) {
+        LocalDateTime startOfDay = departure.atStartOfDay();
+        LocalDateTime endOfDay = departure.atTime(LocalTime.MAX);
+
+        List<Flight> flights = flightRepository.findBySourceAndDestinationAndDepartureTimeBetween(
+                source, destination, startOfDay, endOfDay);
+        return flights.stream().map(this::convertToFlightDTO).collect(Collectors.toList());
+    }
+    private FlightResponse convertToFlightDTO(Flight flight) {
+        Optional<Aircraft> op= aircraftRepository.findById(flight.getAircraft().getId());
+        return new FlightResponse(
+                op.get().getName(),
+                flight.getFlightNumber(),
+                flight.getDepartureTime().format(timeFormatter),
+                flight.getArrivalTime().format(timeFormatter),
+                flight.getSource(),
+                flight.getDestination()
+        );
+    }
+
 
     public void deleteFlight(Long id) {
         flightRepository.deleteById(id);
