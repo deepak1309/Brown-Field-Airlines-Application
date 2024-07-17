@@ -13,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
@@ -25,12 +27,12 @@ public class PassengerController {
         this.passengerService=passengerService;
     }
 
-    @PostMapping("/addPassenger")
-    public ResponseEntity<Passenger> addPassenger(@Valid @RequestBody PassengerDetailsRequestDto passengerDetailsRequestDto) {;
+    @PostMapping("/addPassengerList")
+    public ResponseEntity<List<Passenger>> addListOfPassenger(@Valid @RequestBody List<PassengerDetailsRequestDto> listOfPassengerDetailsRequestDto) {;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException("Unauthorized");
         }
-        return new ResponseEntity<>(passengerService.addPassenger(passengerDetailsRequestDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(passengerService.addPassenger(listOfPassengerDetailsRequestDto), HttpStatus.ACCEPTED);
     }
 }

@@ -11,6 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PassengerServiceImpl implements PassengerService {
 
@@ -24,9 +28,18 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Passenger addPassenger(PassengerDetailsRequestDto passengerDetailsRequestDto) {
+    public List<Passenger> addPassenger(List<PassengerDetailsRequestDto> listOfPassengerDetailsRequestDto) {
+
+
+
+        List<Passenger> listOfPassengers = listOfPassengerDetailsRequestDto.stream().map(this::mapToPassengers).collect(Collectors.toList());
+
+        return  passengerDao.saveAll(listOfPassengers);
+    }
+    private Passenger mapToPassengers(PassengerDetailsRequestDto passengerDetailsRequestDto){
         User user =getCurrentUser();
-        Passenger passenger = Passenger.builder()
+
+        return Passenger.builder()
                 .name(passengerDetailsRequestDto.getName())
                 .email(passengerDetailsRequestDto.getEmail())
                 .phoneNumber(passengerDetailsRequestDto.getPhoneNumber())
@@ -34,8 +47,8 @@ public class PassengerServiceImpl implements PassengerService {
                 .user(user)
                 .build();
 
-        return  passengerDao.save(passenger);
     }
+
 
     public User getCurrentUser() {
 
