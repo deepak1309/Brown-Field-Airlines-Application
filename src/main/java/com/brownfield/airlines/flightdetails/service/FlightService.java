@@ -76,6 +76,7 @@ public class FlightService {
                 source, destination, startOfDay, endOfDay);
         List<Fare> fares = fareDao.findByFlightInAndFareClass(flights, fareClass);
 
+
         return fares.stream()
                 .map(this::convertToFlightDTO)
                 .collect(Collectors.toList());

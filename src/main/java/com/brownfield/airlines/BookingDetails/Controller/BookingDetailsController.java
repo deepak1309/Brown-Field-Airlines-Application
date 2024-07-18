@@ -1,6 +1,7 @@
 package com.brownfield.airlines.BookingDetails.Controller;
 
 
+import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class BookingDetailsController {
         return bookingDetailsService.getAllBookings();
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<BookingDetails> getBookingById(@PathVariable("id") String bookingId) {
         Optional<BookingDetails> bookingDetails = bookingDetailsService.getBookingById(bookingId);
         if (bookingDetails.isPresent()) {
@@ -40,14 +41,14 @@ public class BookingDetailsController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }*/
+
+    @PostMapping("/create")
+    public ResponseEntity<BookingDetails> createBooking(@RequestBody BookingDetailsDto bookingDetail) {
+        return ResponseEntity.ok(bookingDetailsService.createBooking(bookingDetail));
     }
 
-    @PostMapping("/add")
-    public BookingDetails createBooking(@RequestBody BookingDetails bookingDetails) {
-        return bookingDetailsService.createBooking(bookingDetails);
-    }
-
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public ResponseEntity<BookingDetails> updateBooking(@PathVariable("id") String bookingId, @RequestBody BookingDetails bookingDetails) {
         BookingDetails updatedBooking = bookingDetailsService.updateBooking(bookingId, bookingDetails);
         if (updatedBooking != null) {
@@ -55,7 +56,7 @@ public class BookingDetailsController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable("id") String bookingId) {

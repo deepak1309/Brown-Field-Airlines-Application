@@ -1,17 +1,13 @@
 package com.brownfield.airlines.BookingDetails.Entity;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import com.brownfield.airlines.fare.Fare;
 import com.brownfield.airlines.flightdetails.entity.Flight;
 import com.brownfield.airlines.passengerdetails.entity.Passenger;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +25,14 @@ import lombok.Setter;
 public class BookingDetails {
 	
 	@Id
-    @Column(name = "booking_id", nullable = false, length = 30)
-	private String bookingId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name="PNR_NO")
+	private Long bookingId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "passenger_id", nullable = false)
-	private Passenger passenger;
-	
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "passenger_id", nullable = false)
+//	private List<Passenger> passenger;
+//
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "flight_id", nullable = false)
 	private Flight flight;
@@ -43,15 +40,15 @@ public class BookingDetails {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fare_id", nullable = false)
 	private Fare fare;
-	
-//	@Column(name = "identity_number", nullable = false, length = 30)
-//	private String identityNumber;
-	
+
+//	@Column(name = "seat_number")
+//	private String seatNumber;
+
 	@Column(name = "booking_date", nullable = false)
-	private Date bookingDate;
+	private LocalDateTime bookingDate;
 	
-	@Column(name = "payment_status", nullable = false)
-	private boolean paymentStatus;
+	@Column(name = "Booking_status", nullable = false)
+	private boolean bookingStatus;
 
 
 	
