@@ -2,6 +2,7 @@ package com.brownfield.airlines.passengerdetails.entity;
 
 import com.brownfield.airlines.BookingDetails.Entity.BookingDetails;
 import com.brownfield.airlines.Login.entity.User;
+import com.brownfield.airlines.checkIn.CheckInDetails;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -43,4 +44,8 @@ public class Passenger {
     @ManyToOne
     @JoinColumn(name="PNR_NO",nullable = true)
     private BookingDetails bookingDetails;
+
+    @OneToOne
+    @JoinColumn(name="checkIn_id",nullable = true)
+    private CheckInDetails checkInDetails;
 }

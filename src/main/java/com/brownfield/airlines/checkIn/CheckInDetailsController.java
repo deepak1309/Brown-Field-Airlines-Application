@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/checkin")
 public class CheckInDetailsController {
@@ -16,8 +18,8 @@ public class CheckInDetailsController {
     }
 
     @PostMapping("/checkin")
-    public ResponseEntity<CheckInDetails> checkIn(@RequestBody CheckInDetailsDto checkInDetailsDto) {
-        CheckInDetails checkInDetails = checkInDetailsService.checkIn(checkInDetailsDto);
-        return ResponseEntity.ok(checkInDetails);
+    public ResponseEntity<List<CheckInDetails>> checkIn(@RequestBody CheckInDetailsDto checkInDetailsDto) {
+
+        return ResponseEntity.ok(checkInDetailsService.checkIn(checkInDetailsDto));
     }
 }

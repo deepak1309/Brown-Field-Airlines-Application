@@ -15,12 +15,8 @@ import java.time.LocalDateTime;
 public class CheckInDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "checkIn_id")
     private Long id;
-
-   /* @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "passenger_id", nullable = false)
-    private Passenger passenger;*/
 
     @Column(name = "checkin_time")
     private LocalDateTime checkInTime;

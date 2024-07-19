@@ -28,11 +28,7 @@ public class BookingDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="PNR_NO")
 	private Long bookingId;
-	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "passenger_id", nullable = false)
-//	private List<Passenger> passenger;
-//
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "flight_id", nullable = false)
 	private Flight flight;
@@ -40,9 +36,6 @@ public class BookingDetails {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fare_id", nullable = false)
 	private Fare fare;
-
-//	@Column(name = "seat_number")
-//	private String seatNumber;
 
 	@Column(name = "booking_date", nullable = true)
 	private LocalDateTime bookingDate;
