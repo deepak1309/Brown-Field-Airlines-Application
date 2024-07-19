@@ -44,10 +44,10 @@ public class BookingDetails {
 //	@Column(name = "seat_number")
 //	private String seatNumber;
 
-	@Column(name = "booking_date", nullable = false)
+	@Column(name = "booking_date", nullable = true)
 	private LocalDateTime bookingDate;
 	
-	@Column(name = "Booking_status", nullable = false)
+	@Column(name = "Booking_status", nullable = true)
 	private boolean bookingStatus;
 
 

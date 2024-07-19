@@ -51,7 +51,7 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
         BookingDetails bookingDetail=new BookingDetails();
 
        List<Optional<Passenger>> passengers =  bookingDetailDto.getPassengerIds().stream().map(id -> passengerDao.findById(id)).collect(Collectors.toList());
-        Optional<Flight> flight = flightRepository.findById(bookingDetailDto.getFlightId());
+       Optional<Flight> flight = flightRepository.findById(bookingDetailDto.getFlightId());
         Optional<Fare> fare = fareDao.findById(bookingDetailDto.getFareId());
 
         if(bookingDetailDto!=null){
