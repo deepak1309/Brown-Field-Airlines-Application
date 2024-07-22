@@ -25,10 +25,10 @@ public class Flight {
     @Column(nullable = false)
     private LocalDateTime arrivalTime;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String source;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String destination;
 
     @ManyToOne
