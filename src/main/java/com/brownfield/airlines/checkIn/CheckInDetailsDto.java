@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class CheckInDetailsDto {
-    private String pnrNumber;
+    private Long pnrNumber;
 
     private List<String> seatNumber;
 }

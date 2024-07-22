@@ -43,9 +43,10 @@ public class BookingDetailsController {
         }
     }*/
 
-    @PostMapping("/create")
-    public ResponseEntity<BookingDetails> createBooking(@RequestBody BookingDetailsDto bookingDetail) {
-        return ResponseEntity.ok(bookingDetailsService.createBooking(bookingDetail));
+    @PostMapping("/create/payment")
+    public ResponseEntity<String> createBookingAndHandlePayment(@RequestBody BookingDetailsDto bookingDetail) {
+        bookingDetailsService.createBooking(bookingDetail);
+        return ResponseEntity.ok("Payment Successfull, Booking Ticket Generated");
     }
 
    /* @PutMapping("/{id}")
@@ -58,9 +59,9 @@ public class BookingDetailsController {
         }
     }*/
 
-    @DeleteMapping("/{id}")
+  /*  @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable("id") String bookingId) {
         bookingDetailsService.deleteBooking(bookingId);
         return ResponseEntity.noContent().build();
-    }
+    }*/
 }

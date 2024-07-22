@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.brownfield.airlines.BookingDetails.Entity.BookingDetails;
 
 @Repository
-public interface BookingDetailsDao extends JpaRepository<BookingDetails, String> {
+public interface BookingDetailsDao extends JpaRepository<BookingDetails, Long> {
 
 }

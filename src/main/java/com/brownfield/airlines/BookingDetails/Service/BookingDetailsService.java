@@ -16,6 +16,6 @@ public interface BookingDetailsService {
 
 	  //  BookingDetails updateBooking(String bookingId, BookingDetails bookingDetails);
 
-	    void deleteBooking(String bookingId);
+	   /* void deleteBooking(String bookingId);*/
 
 }
