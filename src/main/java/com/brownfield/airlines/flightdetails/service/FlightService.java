@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.brownfield.airlines.flightdetails.Dao.FlightRepository;
 import com.brownfield.airlines.flightdetails.entity.Flight;
+
 
 @Service
 public class FlightService {
@@ -46,8 +48,9 @@ public class FlightService {
 
     }
 
-    public Flight getFlightById(Long id) {
-        return flightRepository.findById(id).orElse(null);
+    public Flight getFlightByNumber(String flightNumber) {
+        return flightRepository.findByFlightNumber(flightNumber);
+
 
     }
 
@@ -91,7 +94,8 @@ public class FlightService {
                 flight.getArrivalTime().format(timeFormatter),
                 flight.getSource(),
                 flight.getDestination(),
-                fare.getPrice()
+                fare.getPrice(),
+                fare.getFareClass()
         );
     }
 

@@ -1,5 +1,9 @@
 package com.brownfield.airlines.search.response;
 
+import com.brownfield.airlines.fare.FareClass;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +32,7 @@ public class FlightResponse {
     private String destination;
 
     private Double price;
+
+    private FareClass fareClass;
 }
 
