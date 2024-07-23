@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
@@ -30,6 +31,8 @@ public class FlightResponse {
 
 
     private String destination;
+
+    private LocalDate date;
 
     private Double price;
 

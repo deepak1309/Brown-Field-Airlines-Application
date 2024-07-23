@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
@@ -15,6 +14,7 @@ import com.brownfield.airlines.fare.Fare;
 import com.brownfield.airlines.fare.FareClass;
 import com.brownfield.airlines.fare.FareDao;
 import com.brownfield.airlines.flightdetails.Dao.AircraftRepository;
+import com.brownfield.airlines.flightdetails.Dao.FlightRepoFindByNumber;
 import com.brownfield.airlines.flightdetails.entity.Aircraft;
 import com.brownfield.airlines.search.response.FlightResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +32,16 @@ public class FlightService {
     private AircraftRepository aircraftRepository;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private FareDao fareDao;
+    private FlightRepoFindByNumber flightRepoFindByNumber;
 
 
     @Autowired
-    public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository, FareDao fareDao) {
+    public FlightService(FlightRepository flightRepository, InventoryDao inventoryDao, AircraftRepository aircraftRepository, FareDao fareDao, FlightRepoFindByNumber flightRepoFindByNumber) {
         this.flightRepository = flightRepository;
         this.inventoryDao = inventoryDao;
         this.aircraftRepository = aircraftRepository;
         this.fareDao = fareDao;
+        this.flightRepoFindByNumber = flightRepoFindByNumber;
     }
 
 
@@ -49,8 +51,7 @@ public class FlightService {
     }
 
     public Flight getFlightByNumber(String flightNumber) {
-        return flightRepository.findByFlightNumber(flightNumber);
-
+        return flightRepoFindByNumber.findByFlightNumber(flightNumber);
 
     }
 
@@ -94,6 +95,7 @@ public class FlightService {
                 flight.getArrivalTime().format(timeFormatter),
                 flight.getSource(),
                 flight.getDestination(),
+                flight.getDepartureTime().toLocalDate(),
                 fare.getPrice(),
                 fare.getFareClass()
         );
