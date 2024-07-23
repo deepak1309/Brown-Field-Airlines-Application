@@ -29,9 +29,9 @@ public class FlightController {
         return flightService.getAllFlights();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Flight> getFlightById(@PathVariable Long id) {
-        Flight flight = flightService.getFlightById(id);
+    @GetMapping("/getBy/{flightNumber}")
+    public ResponseEntity<Flight> getFlightByNumber(@PathVariable String flightNumber) {
+        Flight flight = flightService.getFlightByNumber(flightNumber);
         if (flight != null) {
             return ResponseEntity.ok(flight);
         } else {
@@ -45,7 +45,7 @@ public class FlightController {
 
     }
 
-    @PutMapping("/{id}")
+   /* @PutMapping("/{id}")
     public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody Flight flightDetails) throws Exception {
         Flight flight = flightService.getFlightById(id);
         if (flight != null) {
@@ -64,7 +64,7 @@ public class FlightController {
 
         }
 
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {

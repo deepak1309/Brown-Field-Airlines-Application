@@ -3,6 +3,9 @@ package com.brownfield.airlines.BookingDetails.Controller;
 
 import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +48,10 @@ public class BookingDetailsController {
 
     @PostMapping("/create/payment")
     public ResponseEntity<String> createBookingAndHandlePayment(@RequestBody BookingDetailsDto bookingDetail) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException("Unauthorized");
+        }
         bookingDetailsService.createBooking(bookingDetail);
         return ResponseEntity.ok("Payment Successfull, Booking Ticket Generated");
     }

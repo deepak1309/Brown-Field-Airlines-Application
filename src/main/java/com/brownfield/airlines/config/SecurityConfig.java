@@ -72,7 +72,8 @@ public class SecurityConfig {
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/api/users/register").permitAll()
-                                .requestMatchers("/api/addPassenger").authenticated()// Allow registration endpoint without authentication
+                                .requestMatchers("/api/addPassenger").authenticated()
+                                .requestMatchers("/api/bookings/create/payment").authenticated()// Allow registration endpoint without authentication
                                 .anyRequest().permitAll() // Require authentication for all other endpoints
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

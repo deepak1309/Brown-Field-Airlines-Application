@@ -1,6 +1,7 @@
 package com.brownfield.airlines.BookingDetails.bookingDetailsDto;
 
 import com.brownfield.airlines.fare.Fare;
+import com.brownfield.airlines.fare.FareClass;
 import com.brownfield.airlines.flightdetails.entity.Flight;
 import com.brownfield.airlines.passengerdetails.entity.Passenger;
 import jakarta.persistence.Column;
@@ -15,8 +16,7 @@ import java.util.List;
 @Data
 public class BookingDetailsDto {
 
-    private List<Long> passengerIds;
-    private Long flightId;
-    private Long fareId;
+    private String flightNumber;
+    private FareClass fareClass;
     private boolean bookingStatus;
 }
