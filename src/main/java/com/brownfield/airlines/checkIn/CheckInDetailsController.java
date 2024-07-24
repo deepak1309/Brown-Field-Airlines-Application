@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/checkin")
+@CrossOrigin("*")
 public class CheckInDetailsController {
 
     private final CheckInDetailsService checkInDetailsService;

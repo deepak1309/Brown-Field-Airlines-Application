@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RestController
 @RequestMapping("/api/users")
 @Validated
-@CrossOrigin
+@CrossOrigin("*")
 public class RegistrationController {
 
     UserService userService;

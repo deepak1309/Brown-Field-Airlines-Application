@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin("*")
 public class PassengerController {
 
     private PassengerService passengerService;
