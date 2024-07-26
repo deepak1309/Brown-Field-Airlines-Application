@@ -49,17 +49,7 @@ public class BookingDetailsController {
         bookingDetailsService.createBooking(bookingDetail);
         return ResponseEntity.ok("Payment Successfull, Booking Ticket Generated");
     }
-
-   /* @PutMapping("/{id}")
-    public ResponseEntity<BookingDetails> updateBooking(@PathVariable("id") String bookingId, @RequestBody BookingDetails bookingDetails) {
-        BookingDetails updatedBooking = bookingDetailsService.updateBooking(bookingId, bookingDetails);
-        if (updatedBooking != null) {
-            return ResponseEntity.ok(updatedBooking);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }*/
-
+    
   /*  @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable("id") String bookingId) {
         bookingDetailsService.deleteBooking(bookingId);

@@ -66,9 +66,12 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
 
         User user =getCurrentUser();
 
-       List<Optional<Passenger>> passengers = passengerDao.findAllByUser(user);
+       List<Optional<Passenger>> passengers = passengerDao.findAllByUser(user).stream()
+                                                          .filter(p -> (p.get().getBookingDetails()==null)).collect(Collectors.toList());
+
        Flight flight = flightRepository.findByFlightNumber(bookingDetailDto.getFlightNumber());
         Optional<Fare> fare = fareDao.findByFlightAndFareClass(flight,bookingDetailDto.getFareClass() );
+
 
         if(bookingDetailDto!=null){
             bookingDetail = BookingDetails.builder()
