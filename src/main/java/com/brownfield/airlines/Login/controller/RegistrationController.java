@@ -3,6 +3,7 @@ package com.brownfield.airlines.Login.controller;
 
 
 import com.brownfield.airlines.Login.entity.User;
+import com.brownfield.airlines.Login.entity.UserDto;
 import com.brownfield.airlines.Login.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody User user){
+    public ResponseEntity<String> registerUser(@Valid @RequestBody UserDto userDto){
 
-        userService.registerUser(user);
+        userService.registerUser(userDto);
         return new ResponseEntity<>("User Created", HttpStatus.CREATED);
     }
 

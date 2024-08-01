@@ -2,17 +2,14 @@ package com.brownfield.airlines.BookingDetails.Controller;
 
 
 import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
+import com.brownfield.airlines.BookingDetails.dto.BookingDetailsDtoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import com.brownfield.airlines.BookingDetails.Entity.BookingDetails;
 import com.brownfield.airlines.BookingDetails.Service.BookingDetailsService;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/bookings")
@@ -25,10 +22,16 @@ public class BookingDetailsController {
         this.bookingDetailsService = bookingDetailsService;
     }
 
-    @GetMapping
-    public List<BookingDetails> getAllBookings() {
-        return bookingDetailsService.getAllBookings();
-    }
+    /*@GetMapping
+    public ResponseEntity<List<BookingDetails>> getPnrDetails(@RequestBody BookingDetailsDto bookingDetail) {
+        *//*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new AccessDeniedException("Unauthorized");
+        }*//*
+
+        return ResponseEntity.ok(bookingDetailsService.getAllBookings(bookingDetail.getFlightNumber(),bookingDetail.getFareClass()));
+
+    }*/
 
     /*@GetMapping("/{id}")
     public ResponseEntity<BookingDetails> getBookingById(@PathVariable("id") String bookingId) {
@@ -41,15 +44,15 @@ public class BookingDetailsController {
     }*/
 
     @PostMapping("/create/payment")
-    public ResponseEntity<String> createBookingAndHandlePayment(@RequestBody BookingDetailsDto bookingDetail) {
+    public ResponseEntity<BookingDetailsDtoResponse> createBookingAndHandlePayment(@RequestBody BookingDetailsDto bookingDetail) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new AccessDeniedException("Unauthorized");
         }
-        bookingDetailsService.createBooking(bookingDetail);
-        return ResponseEntity.ok("Payment Successfull, Booking Ticket Generated");
+
+        return ResponseEntity.ok(bookingDetailsService.createBooking(bookingDetail));
     }
-    
+
   /*  @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBooking(@PathVariable("id") String bookingId) {
         bookingDetailsService.deleteBooking(bookingId);

@@ -43,7 +43,4 @@ public class BookingDetails {
 	@Column(name = "Booking_status", nullable = true)
 	private boolean bookingStatus;
 
-
-	
-	
 }

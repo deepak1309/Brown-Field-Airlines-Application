@@ -16,6 +16,7 @@ import com.brownfield.airlines.fare.FareDao;
 import com.brownfield.airlines.flightdetails.Dao.AircraftRepository;
 import com.brownfield.airlines.flightdetails.entity.Aircraft;
 import com.brownfield.airlines.search.response.FlightResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import com.brownfield.airlines.flightdetails.entity.Flight;
 
 
 @Service
+@Slf4j
 public class FlightService {
 
     private FlightRepository flightRepository;
@@ -63,6 +65,7 @@ public class FlightService {
 
         }
         catch(Exception e){
+            log.info((e.getMessage()));
             throw new Exception("Flight Number Already Exits or Aircraft Still not have been added");
         }
         return fl;
@@ -70,18 +73,26 @@ public class FlightService {
     }
 
     public List<FlightResponse> searchOneWayFlights(String source, String destination, LocalDate departure, FareClass fareClass) {
-        LocalDateTime startOfDay = departure.atStartOfDay();
-        LocalDateTime endOfDay = departure.atTime(LocalTime.MAX);
+        List<Fare> fares = null;
+        try {
+            LocalDateTime startOfDay = departure.atStartOfDay();
 
-        List<Flight> flights = flightRepository.findBySourceAndDestinationAndDepartureTimeBetween(
-                source, destination, startOfDay, endOfDay);
-        List<Fare> fares = fareDao.findByFlightInAndFareClass(flights, fareClass);
+            LocalDateTime endOfDay = departure.atTime(LocalTime.MAX);
+
+            List<Flight> flights = flightRepository.findBySourceAndDestinationAndDepartureTimeBetween(
+                    source, destination, startOfDay, endOfDay);
+            fares = fareDao.findByFlightInAndFareClass(flights, fareClass);
 
 
+
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
         return fares.stream()
                 .map(this::convertToFlightDTO)
                 .collect(Collectors.toList());
     }
+
     private FlightResponse convertToFlightDTO(Fare fare) {
         Flight flight = fare.getFlight();
         Optional<Aircraft> op= aircraftRepository.findById(flight.getAircraft().getId());

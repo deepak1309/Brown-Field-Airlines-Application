@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
+import com.brownfield.airlines.BookingDetails.dto.BookingDetailsDtoResponse;
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.Inventory.entity.Inventory;
 import com.brownfield.airlines.Login.dao.UserDao;
@@ -49,10 +50,10 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
         this.userDao = userDao;
     }
 
-    @Override
-    public List<BookingDetails> getAllBookings() {
-        return bookingDetailsDao.findAll();
-    }
+  /*  @Override
+    public List<BookingDetails> getAllBookings(String flightNumber, FareClass fareClass) {
+        return bookingDetailsDao.findAllByFlightNumberAndFareClass(flightNumber,fareClass);
+    }*/
 
    /* @Override
     public Optional<BookingDetails> getBookingById(String bookingId) {
@@ -60,7 +61,7 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
     }*/
 
     @Override
-    public  BookingDetails createBooking(BookingDetailsDto bookingDetailDto) {
+    public  BookingDetailsDtoResponse createBooking(BookingDetailsDto bookingDetailDto) {
         BookingDetails bookingDetail=new BookingDetails();
         Payment payment = null;
 
@@ -70,7 +71,7 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
                                                           .filter(p -> (p.get().getBookingDetails()==null)).collect(Collectors.toList());
 
        Flight flight = flightRepository.findByFlightNumber(bookingDetailDto.getFlightNumber());
-        Optional<Fare> fare = fareDao.findByFlightAndFareClass(flight,bookingDetailDto.getFareClass() );
+       Optional<Fare> fare = fareDao.findByFlightAndFareClass(flight,bookingDetailDto.getFareClass() );
 
 
         if(bookingDetailDto!=null){
@@ -82,7 +83,7 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
         }
         else throw new RuntimeException("Booking already made for the passenger");
         BookingDetails  bookingDetails=bookingDetailsDao.save(bookingDetail);
-        paymentDao.save(payment);
+        Payment PaymentResponse = paymentDao.save(payment);
 
         if(payment.isPaymentStatus()){
             Inventory inventory=inventoryDao.findByFlight(flight);
@@ -96,8 +97,21 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
             passengerDao.save(p.get());
         }
 
-        return bookingDetails;
+        BookingDetailsDtoResponse dto = new BookingDetailsDtoResponse();
+        dto.setBookingDetails(bookingDetail);
+        return dto;
+
     }
+
+   /* private BookingDetailsDtoResponse convertToBookingDetailsDtoResponse(BookingDetails bookingDetails,Payment payment) {
+        BookingDetailsDtoResponse dto = new BookingDetailsDtoResponse();
+        dto.setBookingId(bookingDetails.getBookingId());
+        dto.setBookingDate(bookingDetails.getBookingDate());
+        dto.setBookingStatus(bookingDetails.isBookingStatus());
+        dto.setFlight(bookingDetails.getFlight());
+        dto.setPayment(payment);
+        return dto;
+    }*/
 
     private User getCurrentUser() {
 
