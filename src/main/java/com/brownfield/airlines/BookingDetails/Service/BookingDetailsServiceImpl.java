@@ -6,7 +6,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
+import com.brownfield.airlines.BookingDetails.dto.AircraftDto;
 import com.brownfield.airlines.BookingDetails.dto.BookingDetailsDtoResponse;
+import com.brownfield.airlines.BookingDetails.dto.FlightDto;
+import com.brownfield.airlines.BookingDetails.dto.PaymentDto;
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.Inventory.entity.Inventory;
 import com.brownfield.airlines.Login.dao.UserDao;
@@ -14,6 +17,7 @@ import com.brownfield.airlines.Login.entity.User;
 import com.brownfield.airlines.fare.Fare;
 import com.brownfield.airlines.fare.FareDao;
 import com.brownfield.airlines.flightdetails.Dao.FlightRepository;
+import com.brownfield.airlines.flightdetails.entity.Aircraft;
 import com.brownfield.airlines.flightdetails.entity.Flight;
 import com.brownfield.airlines.passengerdetails.dao.PassengerDao;
 import com.brownfield.airlines.passengerdetails.entity.Passenger;
@@ -97,21 +101,44 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
             passengerDao.save(p.get());
         }
 
-        BookingDetailsDtoResponse dto = new BookingDetailsDtoResponse();
-        dto.setBookingDetails(bookingDetail);
-        return dto;
+        return convertToBookingDetailsDtoResponse(bookingDetail,PaymentResponse);
 
     }
 
-   /* private BookingDetailsDtoResponse convertToBookingDetailsDtoResponse(BookingDetails bookingDetails,Payment payment) {
+    private BookingDetailsDtoResponse convertToBookingDetailsDtoResponse(BookingDetails bookingDetails,Payment payment) {
         BookingDetailsDtoResponse dto = new BookingDetailsDtoResponse();
         dto.setBookingId(bookingDetails.getBookingId());
         dto.setBookingDate(bookingDetails.getBookingDate());
         dto.setBookingStatus(bookingDetails.isBookingStatus());
-        dto.setFlight(bookingDetails.getFlight());
-        dto.setPayment(payment);
+        dto.setFlight(convertToFlightDto(bookingDetails.getFlight()));
+        dto.setPayment(convertToPaymentDto(payment));
         return dto;
-    }*/
+    }
+    private FlightDto convertToFlightDto(Flight flight) {
+        FlightDto dto = new FlightDto();
+        dto.setFlightNumber(flight.getFlightNumber());
+        dto.setSource(flight.getSource());
+        dto.setDestination(flight.getDestination());
+        dto.setDepartureTime(flight.getDepartureTime());
+        dto.setArrivalTime(flight.getArrivalTime());
+        dto.setAircraft(convertToAircraftDto(flight.getAircraft()));
+        return dto;
+    }
+
+    private AircraftDto convertToAircraftDto(Aircraft aircraft) {
+        AircraftDto dto = new AircraftDto();
+        dto.setModel(aircraft.getModel());
+        dto.setName(aircraft.getName());
+        return dto;
+    }
+
+    private PaymentDto convertToPaymentDto(Payment payment) {
+        PaymentDto dto = new PaymentDto();
+        dto.setPaymentDate(payment.getPaymentDate());
+        dto.setPaymentStatus(payment.isPaymentStatus());
+        dto.setTotalAmount(payment.getTotalAmount());
+        return dto;
+    }
 
     private User getCurrentUser() {
 

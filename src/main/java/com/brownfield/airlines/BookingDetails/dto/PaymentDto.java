@@ -12,10 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
-    private Long id;
     private LocalDateTime paymentDate;
     private boolean paymentStatus;
     private double totalAmount;
 
-    // Getters and Setters
 }
