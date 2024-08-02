@@ -1,14 +1,13 @@
 package com.brownfield.airlines.BookingDetails.dto;
 
-import com.brownfield.airlines.BookingDetails.Entity.BookingDetails;
-import com.brownfield.airlines.flightdetails.entity.Flight;
-import com.brownfield.airlines.payment.Payment;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,6 +25,6 @@ public class BookingDetailsDtoResponse {
 
     private PaymentDto payment;
 
-
+    private List<PassengerDto> passengers;
 
 }

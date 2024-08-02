@@ -1,15 +1,13 @@
 package com.brownfield.airlines.BookingDetails.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.brownfield.airlines.BookingDetails.bookingDetailsDto.BookingDetailsDto;
-import com.brownfield.airlines.BookingDetails.dto.AircraftDto;
-import com.brownfield.airlines.BookingDetails.dto.BookingDetailsDtoResponse;
-import com.brownfield.airlines.BookingDetails.dto.FlightDto;
-import com.brownfield.airlines.BookingDetails.dto.PaymentDto;
+import com.brownfield.airlines.BookingDetails.dto.*;
 import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.Inventory.entity.Inventory;
 import com.brownfield.airlines.Login.dao.UserDao;
@@ -101,19 +99,34 @@ public class BookingDetailsServiceImpl implements BookingDetailsService {
             passengerDao.save(p.get());
         }
 
-        return convertToBookingDetailsDtoResponse(bookingDetail,PaymentResponse);
+        return convertToBookingDetailsDtoResponse(bookingDetail,PaymentResponse,passengers);
 
     }
 
-    private BookingDetailsDtoResponse convertToBookingDetailsDtoResponse(BookingDetails bookingDetails,Payment payment) {
+    private BookingDetailsDtoResponse convertToBookingDetailsDtoResponse(BookingDetails bookingDetails,Payment payment,List<Optional<Passenger>> passengers) {
         BookingDetailsDtoResponse dto = new BookingDetailsDtoResponse();
         dto.setBookingId(bookingDetails.getBookingId());
         dto.setBookingDate(bookingDetails.getBookingDate());
         dto.setBookingStatus(bookingDetails.isBookingStatus());
         dto.setFlight(convertToFlightDto(bookingDetails.getFlight()));
         dto.setPayment(convertToPaymentDto(payment));
+        dto.setPassengers(convertToPassengersDto(passengers));
         return dto;
     }
+
+    private List<PassengerDto> convertToPassengersDto(List<Optional<Passenger>> passengers){
+        List<PassengerDto> listDto = new ArrayList<>();
+        for(Optional<Passenger> p : passengers){
+            PassengerDto dto = new PassengerDto();
+            dto.setName(p.get().getName());
+            dto.setGender(p.get().getGender());
+            dto.setPhoneNumber(p.get().getPhoneNumber());
+            dto.setEmail(p.get().getEmail());
+            listDto.add(dto);
+        }
+        return listDto;
+    }
+
     private FlightDto convertToFlightDto(Flight flight) {
         FlightDto dto = new FlightDto();
         dto.setFlightNumber(flight.getFlightNumber());
