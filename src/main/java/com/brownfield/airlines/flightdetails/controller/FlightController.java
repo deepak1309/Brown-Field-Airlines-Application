@@ -2,6 +2,7 @@ package com.brownfield.airlines.flightdetails.controller;
 
 import java.util.List;
 
+import com.brownfield.airlines.flightdetails.dto.FlightRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,8 @@ public class FlightController {
 
     }
 
-   /* @PutMapping("/{id}")
-    public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody Flight flightDetails) throws Exception {
+    @PatchMapping("/{id}")
+    public ResponseEntity<Flight> updateFlight(@PathVariable Long id, @RequestBody FlightRequestDto flightDetails) throws Exception {
         Flight flight = flightService.getFlightById(id);
         if (flight != null) {
             flight.setFlightNumber(flightDetails.getFlightNumber());
@@ -47,9 +48,7 @@ public class FlightController {
             flight.setArrivalTime(flightDetails.getArrivalTime());
             flight.setSource(flightDetails.getSource());
             flight.setDestination(flightDetails.getDestination());
-            flight.setAircraft(flightDetails.getAircraft());
-
-            final Flight updatedFlight = flightService.saveFlight(flight);
+            final Flight updatedFlight = flightService.updateFlight(flight);
             return ResponseEntity.ok(updatedFlight);
         } else {
 
@@ -57,7 +56,7 @@ public class FlightController {
 
         }
 
-    }*/
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {

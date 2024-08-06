@@ -2,6 +2,7 @@ package com.brownfield.airlines.flightdetails.controller;
 
 import java.util.List;
 
+import com.brownfield.airlines.flightdetails.dto.AircraftDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +40,12 @@ public class AircraftController {
 		return aircraftService.saveAircraft(aircraft);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Aircraft> updateAircraft(@PathVariable Long id, @RequestBody Aircraft aircraftDetails) {
+	@PatchMapping("/{id}")
+	public ResponseEntity<Aircraft> updateAircraft(@PathVariable Long id, @RequestBody AircraftDto aircraftDetails) {
 		Aircraft aircraft = aircraftService.getAircraftById(id);
 		if (aircraft != null) {
 			aircraft.setName(aircraftDetails.getName());
 			aircraft.setModel(aircraftDetails.getModel());
-			aircraft.setCapacity(aircraftDetails.getCapacity());
 			final Aircraft updatedAircraft = aircraftService.saveAircraft(aircraft);
 			return ResponseEntity.ok(updatedAircraft);
 		} else {

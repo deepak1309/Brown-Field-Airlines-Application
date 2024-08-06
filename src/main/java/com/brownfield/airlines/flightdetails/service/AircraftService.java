@@ -1,6 +1,7 @@
 package com.brownfield.airlines.flightdetails.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class AircraftService {
 
     }
 
+/*
+    public Optional<Aircraft> updateAircraft(Long id,Aircraft aircraft) {
+        Optional<Aircraft> updateAircraft = aircraftRepository.findById(id);
+        if(updateAircraft!=null){
+            updateAircraft.get().setName(aircraft.getName());
+            updateAircraft.get().setModel(aircraft.getModel());
+            updateAircraft.get().setCapacity(aircraft.getCapacity());
+        }
+        return updateAircraft;
+
+    }*/
 
 }

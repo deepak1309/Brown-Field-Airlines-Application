@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/fares")
 @CrossOrigin("*")
@@ -19,5 +21,12 @@ public class FareController {
     public ResponseEntity<Fare> addFare(@RequestBody Fare fare) {
         Fare savedFare = fareService.addFare(fare);
         return ResponseEntity.ok(savedFare);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Fare> updateFare(@PathVariable Long id,@RequestBody FareDto fare){
+        Optional<Fare> updatedFare = fareService.updateFare(id,fare);
+        if(updatedFare.isPresent()) return ResponseEntity.ok(updatedFare.get());
+        else return ResponseEntity.notFound().build();
     }
 }

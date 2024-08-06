@@ -59,8 +59,10 @@ public class FlightService {
         Flight fl;
         try {
             fl = flightRepository.save(flight);
+
             Optional<Aircraft> optional = aircraftRepository.findById(flight.getAircraft().getId());
             Inventory addedInventory = Inventory.builder().flight(fl).available_seats(Integer.parseInt(optional.get().getCapacity())).reserved_seats(0).build();
+
             inventoryDao.save(addedInventory);
 
         }
@@ -115,6 +117,13 @@ public class FlightService {
 
     }
 
+    public Flight getFlightById(Long id) {
+        return flightRepository.findById(id).get();
+    }
+
+    public Flight updateFlight(Flight flight){
+        return flightRepository.save(flight);
+    }
 }
 
 
