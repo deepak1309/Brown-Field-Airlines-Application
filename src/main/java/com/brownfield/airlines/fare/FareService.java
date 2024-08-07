@@ -9,4 +9,6 @@ public interface FareService {
     Optional<Fare> updateFare(Long id, FareDto fare);
 
     List<Fare> getAllFares();
+
+    void deleteFare(Long id);
 }

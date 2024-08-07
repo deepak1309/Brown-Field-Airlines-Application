@@ -35,4 +35,10 @@ public class FareController {
     public ResponseEntity<List<Fare>> getAllFares(){
         return ResponseEntity.ok(fareService.getAllFares());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFlight(@PathVariable Long id) {
+        fareService.deleteFare(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -38,4 +38,9 @@ public class FareServiceImpl implements FareService{
     public List<Fare> getAllFares() {
         return fareDao.findAll().stream().sorted(Comparator.comparing(Fare::getId)).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteFare(Long id) {
+        fareDao.deleteById(id);
+    }
 }
