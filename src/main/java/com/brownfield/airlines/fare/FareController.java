@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,5 +29,10 @@ public class FareController {
         Optional<Fare> updatedFare = fareService.updateFare(id,fare);
         if(updatedFare.isPresent()) return ResponseEntity.ok(updatedFare.get());
         else return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Fare>> getAllFares(){
+        return ResponseEntity.ok(fareService.getAllFares());
     }
 }

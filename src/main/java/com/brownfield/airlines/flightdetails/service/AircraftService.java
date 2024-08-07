@@ -1,7 +1,9 @@
 package com.brownfield.airlines.flightdetails.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class AircraftService {
     private AircraftRepository aircraftRepository;
 
     public List<Aircraft> getAllAircrafts() {
-        return aircraftRepository.findAll();
+        return aircraftRepository.findAll().stream().sorted(Comparator.comparing(Aircraft::getId)).collect(Collectors.toList());
 
     }
 

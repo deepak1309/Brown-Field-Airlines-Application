@@ -3,7 +3,10 @@ package com.brownfield.airlines.fare;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FareServiceImpl implements FareService{
@@ -29,5 +32,10 @@ public class FareServiceImpl implements FareService{
         }
         return Optional.of(fareDao.save(updateFare.get()));
 
+    }
+
+    @Override
+    public List<Fare> getAllFares() {
+        return fareDao.findAll().stream().sorted(Comparator.comparing(Fare::getId)).collect(Collectors.toList());
     }
 }
