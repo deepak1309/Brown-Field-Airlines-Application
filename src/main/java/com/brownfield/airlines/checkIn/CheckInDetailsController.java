@@ -19,7 +19,7 @@ public class CheckInDetailsController {
     }
 
     @PostMapping("/checkin")
-    public ResponseEntity<List<CheckInDetails>> checkIn(@RequestBody CheckInDetailsDto checkInDetailsDto) {
+    public ResponseEntity<List<CheckInDetails>> checkIn(@RequestBody CheckInDetailsDto checkInDetailsDto) throws Exception {
 
         return ResponseEntity.ok(checkInDetailsService.checkIn(checkInDetailsDto));
     }
