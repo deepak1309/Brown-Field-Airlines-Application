@@ -14,4 +14,6 @@ public interface FareDao extends JpaRepository<Fare, Long> {
     List<Fare> findByFlightInAndFareClass(List<Flight> flights, FareClass fareClass);
 
     Optional<Fare> findByFlightAndFareClass(Flight flight, FareClass fareClass);
+
+    List<Fare> findByFlightId(Long id);
 }

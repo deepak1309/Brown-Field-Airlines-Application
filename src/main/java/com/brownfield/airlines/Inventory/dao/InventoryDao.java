@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface InventoryDao extends JpaRepository<Inventory, Long> {
     Inventory findByFlight(Flight flight);
+
+    Inventory findByFlightId(Long id);
 }

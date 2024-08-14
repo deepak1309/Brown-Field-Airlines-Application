@@ -114,8 +114,10 @@ public class FlightService {
 
 
     public void deleteFlight(Long id) {
-        flightRepository.deleteById(id);
+        inventoryDao.delete(inventoryDao.findByFlightId(id));
 
+        fareDao.deleteAll(fareDao.findByFlightId(id));
+        flightRepository.deleteById(id);
     }
 
     public Flight getFlightById(Long id) {

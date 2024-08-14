@@ -2,6 +2,7 @@ package com.brownfield.airlines.flightdetails.controller;
 
 import java.util.List;
 
+import com.brownfield.airlines.Inventory.dao.InventoryDao;
 import com.brownfield.airlines.flightdetails.dto.FlightRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,13 @@ import com.brownfield.airlines.flightdetails.service.FlightService;
 @RequestMapping("/flights")
 @CrossOrigin("*")
 public class FlightController {
-	@Autowired
+
     private FlightService flightService;
+
+    @Autowired
+    public FlightController(FlightService flightService) {
+        this.flightService = flightService;
+    }
 
     @GetMapping
     public List<Flight> getAllFlights() {
